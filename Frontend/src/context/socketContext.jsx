@@ -20,9 +20,9 @@ export const SocketProvider = ({ children }) => {
             console.log("Disconnected from socket server");
         });
 
-        // return () => {
-        //     socket.current.disconnect();
-        // };
+        return () => {
+            socket.current.disconnect();
+        };
     }, []);
 
     // Function to send a message

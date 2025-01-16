@@ -43,9 +43,9 @@ const initializeSocket = (httpServer) => {
         })
 
         // Handle disconnection
-        // socket.on("disconnect", () => {
-        //     console.log(`Socket disconnected: ${socket.id}`);
-        // });
+        socket.on("disconnect", () => {
+            console.log(`Socket disconnected: ${socket.id}`);
+        });
     });
 };
 
