@@ -1,5 +1,5 @@
 import blackListModule from "../modules/blackListToken.js";
-import userModule from "../Modules/user.js";
+import userModule from "../modules/user.js";
 import jwt from "jsonwebtoken";
 
 const authUser = async (req, res, next) => {
