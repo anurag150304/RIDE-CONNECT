@@ -1,5 +1,5 @@
 import * as http from 'http';
-import App from './App.js';
+import App from './app.js';
 import socket from './socket.js';
 
 const port = process.env.PORT || 3000;

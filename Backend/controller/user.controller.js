@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import blackListModule from "../modules/blackListToken.js";
-import userModule from "../Modules/User.js";
+import userModule from "../Modules/user.js";
 import userService from "../services/user.service.js";
 
 const registerUser = async (req, res) => {

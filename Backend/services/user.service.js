@@ -1,4 +1,4 @@
-import userModule from "../Modules/User.js";
+import userModule from "../Modules/user.js";
 
 const createUser = async ({ firstname, lastname, email, password }) => {
     if (!firstname || !email || !password) {
