@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getAddressCoordinates = async (address) => {
+const getAddressCoordinates = async (address) => {
     if (!address) throw new Error("Address is required");
     try {
         const response = await axios.get("https://maps.googleapis.com/maps/api/geocode/json", {
@@ -24,7 +24,7 @@ export const getAddressCoordinates = async (address) => {
     }
 };
 
-export const getDistanceAndTime = async (origin, destination) => {
+const getDistanceAndTime = async (origin, destination) => {
     if (!origin || !destination) throw new Error("origin & destination are required");
     try {
         const response = await axios.get("https://maps.googleapis.com/maps/api/distancematrix/json", {
@@ -49,7 +49,7 @@ export const getDistanceAndTime = async (origin, destination) => {
     }
 };
 
-export const getAutocompleteSuggestions = async (input) => {
+const getAutocompleteSuggestions = async (input) => {
     if (!input) throw new Error("Query is required");
     try {
         const response = await axios.get("https://maps.googleapis.com/maps/api/place/autocomplete/json", {
@@ -76,3 +76,9 @@ export const getAutocompleteSuggestions = async (input) => {
         throw new Error("Failed to fetch autocomplete suggestions. Please check the input or API key.");
     }
 };
+
+export default {
+    getAddressCoordinates,
+    getDistanceAndTime,
+    getAutocompleteSuggestions
+}

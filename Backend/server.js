@@ -1,9 +1,9 @@
 import * as http from 'http';
 import App from './App.js';
-import { initializeSocket } from './socket.js';
+import socket from './socket.js';
 
 const port = process.env.PORT || 3000;
 const server = http.createServer(App);
-initializeSocket(server);
+socket.initializeSocket(server);
 
 server.listen(port, () => console.log(`Server listining on port ${port}`));

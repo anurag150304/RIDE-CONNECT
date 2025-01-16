@@ -1,8 +1,8 @@
-import { blackListModule } from "../modules/blackListToken.js";
-import { driverModule } from "../modules/driver.js";
+import blackListModule from "../modules/blackListToken.js";
+import driverModule from "../modules/driver.js";
 import jwt from "jsonwebtoken";
 
-export const Authdriver = async (req, res, next) => {
+const authDriver = async (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -23,4 +23,6 @@ export const Authdriver = async (req, res, next) => {
     } catch (error) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
-}
+};
+
+export default authDriver;

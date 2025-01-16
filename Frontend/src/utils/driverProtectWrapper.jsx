@@ -21,11 +21,11 @@ export const DriverProtectWrapper = ({ allowedRole, children }) => {
                 return;
             }
 
-            if (role !== allowedRole) {
-                // Redirect to role-specific home page if role doesn't match
-                navigate(`/${role}-home`);
-                return;
-            }
+            // if (role !== allowedRole) {
+            //     // Redirect to role-specific home page if role doesn't match
+            //     navigate(`/${role}-home`);
+            //     return;
+            // }
 
             if (!token) {
                 // Redirect to login if no token is found

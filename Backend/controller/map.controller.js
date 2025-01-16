@@ -1,40 +1,46 @@
 import { validationResult } from "express-validator";
-import { getAddressCoordinates, getAutocompleteSuggestions, getDistanceAndTime } from "../services/map.service.js";
+import mapService from "../services/map.service.js";
 
-export const getCoordinates = async (req, res) => {
+const getCoordinates = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) return res.status(400).json({ error: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
     const { address } = req.query;
     try {
-        const coordinates = await getAddressCoordinates(address);
+        const coordinates = await mapService.getAddressCoordinates(address);
         res.status(200).json(coordinates);
     } catch (error) {
         res.status(404).json({ message: "Coordinates not found" });
     }
-}
+};
 
-export const getDistanceTime = async (req, res) => {
+const getDistanceTime = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) return res.status(400).json({ error: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
     const { origin, destination } = req.query;
 
     try {
-        const distanceTime = await getDistanceAndTime(origin, destination);
+        const distanceTime = await mapService.getDistanceAndTime(origin, destination);
         res.status(200).json(distanceTime);
     } catch (error) {
         res.status(404).json({ message: "Distance not found" });
     }
-}
+};
 
-export const getSuggestions = async (req, res) => {
+const getSuggestions = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) return res.status(400).json({ error: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
     const { input } = req.query;
 
     try {
-        const suggestions = await getAutocompleteSuggestions(input);
+        const suggestions = await mapService.getAutocompleteSuggestions(input);
         res.status(200).json(suggestions);
     } catch (error) {
         res.status(404).json({ message: "Suggestions not found" });
     }
-}
+};
+
+export default {
+    getCoordinates,
+    getDistanceTime,
+    getSuggestions
+};

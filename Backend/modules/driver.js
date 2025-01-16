@@ -32,7 +32,7 @@ const driverSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        emun: ['active', 'inactive'],
+        enum: ['active', 'inactive'],
         default: 'inactive'
     },
     vehicle: {
@@ -54,7 +54,7 @@ const driverSchema = new mongoose.Schema({
         vehicleType: {
             type: String,
             required: true,
-            emun: ['car', 'motorcycle', 'auto']
+            enum: ['car', 'motorcycle', 'auto']
         }
     },
     location: {
@@ -69,14 +69,16 @@ const driverSchema = new mongoose.Schema({
 
 driverSchema.methods.generateAuthToken = function () {
     return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-}
+};
 
 driverSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
-}
+};
 
 driverSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
-}
+};
 
-export const driverModule = mongoose.model('driver', driverSchema);
+const driverModule = mongoose.model('driver', driverSchema);
+
+export default driverModule;

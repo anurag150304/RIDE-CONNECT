@@ -1,9 +1,9 @@
 import { validationResult } from "express-validator";
-import { blackListModule } from "../modules/blackListToken.js";
-import { userModule } from "../Modules/User.js";
-import { createUser } from "../services/user.service.js";
+import blackListModule from "../modules/blackListToken.js";
+import userModule from "../Modules/User.js";
+import userService from "../services/user.service.js";
 
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).send({ errors: errors.array() });
@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
     }
     const hashedPassword = await userModule.hashPassword(password);
 
-    const user = await createUser({
+    const user = await userService.createUser({
         firstname: fullname.firstname,
         lastname: fullname.lastname,
         email,
@@ -25,9 +25,9 @@ export const registerUser = async (req, res) => {
 
     const token = user.generateAuthToken();
     res.status(201).json({ token, user });
-}
+};
 
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).send({ errors: errors.array() });
@@ -47,15 +47,22 @@ export const loginUser = async (req, res) => {
     const token = user.generateAuthToken();
     res.cookie('token', token);
     res.status(200).json({ token, user });
-}
+};
 
-export const logoutUser = async (req, res) => {
+const logoutUser = async (req, res) => {
     const token = req.cookies.token || req.headers.authorization.split(' ')[1];
     await blackListModule.create({ token });
     res.clearCookie('token');
     res.status(200).json({ message: 'Logged out' });
-}
+};
 
-export const getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
     res.status(200).json(req.user);
-}
+};
+
+export default {
+    registerUser,
+    loginUser,
+    logoutUser,
+    getUserProfile
+};

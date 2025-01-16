@@ -1,11 +1,11 @@
 import { Server } from "socket.io";
-import { userModule } from "./Modules/User.js";
-import { driverModule } from "./modules/driver.js";
+import userModule from "./Modules/User.js";
+import driverModule from "./modules/driver.js";
 
 let io;
 
 // Function to initialize Socket.IO
-export const initializeSocket = (httpServer) => {
+const initializeSocket = (httpServer) => {
     io = new Server(httpServer, {
         cors: {
             origin: "*", // Update this with your frontend's origin for security
@@ -43,17 +43,22 @@ export const initializeSocket = (httpServer) => {
         })
 
         // Handle disconnection
-        socket.on("disconnect", () => {
-            console.log(`Socket disconnected: ${socket.id}`);
-        });
+        // socket.on("disconnect", () => {
+        //     console.log(`Socket disconnected: ${socket.id}`);
+        // });
     });
 };
 
 // Function to send a message to a specific user/driver using their ID
-export const sendMessageToSocketID = (socketID, messageObj) => {
+const sendMessageToSocketID = (socketID, messageObj) => {
     if (io) {
         io.to(socketID).emit(messageObj.event, messageObj.data);
     } else {
         console.log(`Socket.IO instance not initialized.`);
     }
 };
+
+export default {
+    initializeSocket,
+    sendMessageToSocketID
+}

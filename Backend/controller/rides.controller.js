@@ -1,26 +1,26 @@
-import { validationResult } from "express-validator"
-import { calculateFares, ConfirmRide, EndRide, makeRide, StartRide } from "../services/rides.service.js";
-import { getAddressCoordinates, getDistanceAndTime } from "../services/map.service.js";
-import { findNearbyDrivers } from "../services/driver.service.js";
-import { sendMessageToSocketID } from "../socket.js";
-import { rideModel } from "../modules/rides.model.js";
+import { validationResult } from "express-validator";
+import rideService from "../services/rides.service.js";
+import mapService from "../services/map.service.js";
+import driverService from "../services/driver.service.js";
+import socket from "../socket.js";
+import rideModel from "../modules/rides.model.js";
 
-export const createRide = async (req, res) => {
+const createRide = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
 
     try {
         const { pickup, destination, vehicleType, fare } = req.body;
-        const newRide = await makeRide({ userID: req.user._id, pickup, destination, vehicleType, fare });
+        const newRide = await rideService.makeRide({ userID: req.user._id, pickup, destination, vehicleType, fare });
         res.status(201).json(newRide);
 
-        const pickupCoordinates = await getAddressCoordinates(pickup);
-        const getNearByDrivers = await findNearbyDrivers(pickupCoordinates.latitude, pickupCoordinates.longitude, 2);
+        const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
+        const getNearByDrivers = await driverService.findNearbyDrivers(pickupCoordinates.latitude, pickupCoordinates.longitude, 2);
         const rideWithUser = await rideModel.findOne({ _id: newRide._id }).populate("userID");
 
         newRide.otp = "";
         getNearByDrivers.forEach(driver => {
-            sendMessageToSocketID(driver.socketID, { event: "new-ride", data: rideWithUser });
+            socket.sendMessageToSocketID(driver.socketID, { event: "new-ride", data: rideWithUser });
         });
 
     } catch (error) {
@@ -29,31 +29,31 @@ export const createRide = async (req, res) => {
     }
 };
 
-export const getFare = async (req, res) => {
+const getFare = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) return res.status(400).json({ error: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
     const { pickup, destination } = req.query;
 
     try {
-        const getDistance = await getDistanceAndTime(pickup, destination);
-        const fares = calculateFares(getDistance.distance.value, getDistance.duration.value);
-        return res.status(200).json(fares);
+        const getDistance = await mapService.getDistanceAndTime(pickup, destination);
+        const fares = rideService.calculateFares(getDistance.distance.value, getDistance.duration.value);
+        res.status(200).json(fares);
     } catch (error) {
+        console.error("Error in getFare:", error.message);
         return res.status(400).json({ message: error.message });
     }
+};
 
-}
-
-export const confirmRide = async (req, res) => {
+const confirmRide = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) return res.status(400).json({ error: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
 
     try {
         const { rideId } = req.body;
-        const confirmedRide = await ConfirmRide(rideId, req.driver._id);
+        const confirmedRide = await rideService.ConfirmRide(rideId, req.driver._id);
         res.status(200).json(confirmedRide);
 
-        sendMessageToSocketID(confirmedRide.userID.socketID, {
+        socket.sendMessageToSocketID(confirmedRide.userID.socketID, {
             event: "ride-confirmed",
             data: confirmedRide
         });
@@ -62,17 +62,17 @@ export const confirmRide = async (req, res) => {
     }
 }
 
-export const startRide = async (req, res) => {
+const startRide = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) return res.status(400).json({ error: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
 
     const { rideId, otp } = req.query;
 
     try {
-        const startedRide = await StartRide(rideId, otp);
+        const startedRide = await rideService.StartRide(rideId, otp);
         res.status(200).json(startedRide);
 
-        sendMessageToSocketID(startedRide.userID.socketID, {
+        socket.sendMessageToSocketID(startedRide.userID.socketID, {
             event: "ride-started",
             data: startedRide
         });
@@ -81,16 +81,15 @@ export const startRide = async (req, res) => {
     }
 }
 
-export const endRide = async (req, res) => {
+const endRide = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) return res.status(400).json({ error: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
 
     try {
         const { rideId } = req.body;
-        const endedRide = await EndRide(rideId, req.driver);
+        const endedRide = await rideService.EndRide(rideId, req.driver);
         res.status(200).json(endedRide);
-        console.log(endedRide);
-        sendMessageToSocketID(endedRide.userID.socketID, {
+        socket.sendMessageToSocketID(endedRide.userID.socketID, {
             event: "ride-ended",
             data: endedRide
         });
@@ -98,3 +97,11 @@ export const endRide = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+export default {
+    createRide,
+    getFare,
+    confirmRide,
+    startRide,
+    endRide
+};

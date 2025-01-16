@@ -1,12 +1,11 @@
-import { rideModel } from "../modules/rides.model.js";
-import { sendMessageToSocketID } from "../socket.js";
-import { getDistanceAndTime } from "./map.service.js";
-import crypto from "crypto"
+import rideModel from "../modules/rides.model.js";
+import mapService from "./map.service.js";
+import crypto from "crypto";
 
-export const makeRide = async ({ userID, pickup, destination, vehicleType, fare }) => {
+const makeRide = async ({ userID, pickup, destination, vehicleType, fare }) => {
     if (!userID || !pickup || !destination || !vehicleType || !fare) throw new Error("All fields are required");
     try {
-        const getDistance = await getDistanceAndTime(pickup, destination);
+        const getDistance = await mapService.getDistanceAndTime(pickup, destination);
         return rideModel.create({
             userID,
             pickup,
@@ -22,7 +21,7 @@ export const makeRide = async ({ userID, pickup, destination, vehicleType, fare 
 
 }
 
-export const ConfirmRide = async (rideId, driverId) => {
+const ConfirmRide = async (rideId, driverId) => {
     if (!rideId || !driverId) {
         throw new Error("Ride ID and Driver ID are required");
     }
@@ -44,8 +43,7 @@ export const ConfirmRide = async (rideId, driverId) => {
     }
 };
 
-
-export const StartRide = async (rideId, otp) => {
+const StartRide = async (rideId, otp) => {
     if (!rideId || !otp) throw new Error("RideID and OTP are required.");
 
     try {
@@ -62,7 +60,7 @@ export const StartRide = async (rideId, otp) => {
     }
 };
 
-export const EndRide = async (rideId, driver) => {
+const EndRide = async (rideId, driver) => {
     if (!rideId || !driver) throw new Error("RideID and Driver are required.");
     try {
         const ride = await rideModel.findOne({ _id: rideId, captain: driver._id }).populate("userID");
@@ -75,11 +73,9 @@ export const EndRide = async (rideId, driver) => {
         console.error(`Error ending ride: ${error.message}`);
         throw error;
     }
-
 }
 
-
-export const calculateFares = (distance, time) => {
+const calculateFares = (distance, time) => {
     if (typeof distance !== "number" || typeof time !== "number") {
         throw new Error("Distance (meters) and time (seconds) are required as numbers.");
     }
@@ -120,6 +116,15 @@ export const calculateFares = (distance, time) => {
     return fares;
 };
 
-export const generateOTP = (length) => {
+const generateOTP = (length) => {
     return crypto.randomInt(0, 10 ** length).toString().padStart(length, '0');
+};
+
+export default {
+    makeRide,
+    ConfirmRide,
+    StartRide,
+    EndRide,
+    calculateFares,
+    generateOTP
 };

@@ -1,6 +1,6 @@
-import { driverModule } from "../modules/driver.js";
+import driverModule from "../modules/driver.js";
 
-export const createDriver = async ({
+const createDriver = async ({
     firstname,
     lastname,
     email,
@@ -30,7 +30,7 @@ export const createDriver = async ({
     });
 }
 
-export const findNearbyDrivers = async (ltd, lng, radius) => {
+const findNearbyDrivers = async (ltd, lng, radius) => {
     try {
         return await driverModule.find({
             location: {
@@ -45,3 +45,8 @@ export const findNearbyDrivers = async (ltd, lng, radius) => {
         throw error;
     }
 };
+
+export default {
+    createDriver,
+    findNearbyDrivers
+}

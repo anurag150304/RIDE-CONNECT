@@ -1,6 +1,6 @@
-import { userModule } from "../Modules/User.js";
+import userModule from "../Modules/User.js";
 
-export const createUser = async ({ firstname, lastname, email, password }) => {
+const createUser = async ({ firstname, lastname, email, password }) => {
     if (!firstname || !email || !password) {
         throw new Error('All fields are required');
     }
@@ -13,4 +13,8 @@ export const createUser = async ({ firstname, lastname, email, password }) => {
         email,
         password
     });
-}
+};
+
+export default {
+    createUser
+};
