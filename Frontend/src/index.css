@@ -65,3 +65,29 @@
   /* Equivalent to Tailwind's rounded-full */
   animation: expandWidth 8s ease-in-out forwards;
 }
+
+@media Screen and (min-width: 1030px) and (max-width: 2561px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media Screen and (min-width: 576px) and (max-width: 955.5px) {
+  html {
+    font-size: 13px;
+  }
+
+}
+
+@media Screen and (min-width: 452px) and (max-width: 659.5px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+
+@media screen and (max-width: 451.5px) {
+  html {
+    font-size: 11px;
+  }
+}

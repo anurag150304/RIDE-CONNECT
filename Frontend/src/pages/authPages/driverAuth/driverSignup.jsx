@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Header } from "../../../components/header";
 import { Footer } from "../../../components/footer";
 import { useContext, useState } from "react";
@@ -62,33 +62,33 @@ export const DriverSignup = () => {
             <Header />
             <div className="p-6">
                 <form
-                    action=""
-                    method="post"
                     onSubmit={(e) => submitData(e)}
-                    className="mx-auto w-[40%] h-fit flex flex-col justify-center place-items-center gap-6 my-8">
-                    <div className="w-full flex flex-col justify-center place-items-start gap-4">
-                        <p className="text-xl font-medium opacity-80 cursor-pointer">What's your name</p>
-                        <div className="w-full flex justify-center place-items-center gap-4">
+                    className="mx-auto max-w-lg w-[80%] flex flex-col justify-center items-center gap-6 my-8"
+                >
+                    <div className="w-full flex flex-col justify-center items-start gap-4">
+                        <p className="text-lg sm:text-xl font-medium opacity-80">What's your name</p>
+                        <div className="w-full flex flex-col sm:flex-row justify-between gap-4">
                             <input
                                 type="text"
                                 placeholder="First name"
                                 name="fullname[firstname]"
                                 value={data.fullname.firstname}
                                 onChange={addData}
-                                className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 placeholder:text-lg placeholder:text-black cursor-pointer" />
+                                className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 placeholder:text-base sm:placeholder:text-lg"
+                            />
                             <input
                                 type="text"
                                 placeholder="Last name"
                                 name="fullname[lastname]"
                                 value={data.fullname.lastname}
                                 onChange={addData}
-                                className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 placeholder:text-lg placeholder:text-black cursor-pointer" />
+                                className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 placeholder:text-base sm:placeholder:text-lg"
+                            />
                         </div>
                     </div>
-                    <div className="w-full flex flex-col justify-center place-items-start gap-4">
-                        <label htmlFor="email" className="text-xl font-medium opacity-80 cursor-pointer">
-                            What's your email
-                        </label>
+
+                    <div className="w-full flex flex-col gap-4">
+                        <label htmlFor="email" className="text-lg sm:text-xl font-medium opacity-80">What's your email</label>
                         <input
                             type="email"
                             name="email"
@@ -96,12 +96,12 @@ export const DriverSignup = () => {
                             placeholder="example@gmail.com"
                             value={data.email}
                             onChange={addData}
-                            className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 placeholder:text-lg placeholder:text-black cursor-pointer" />
+                            className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 placeholder:text-base sm:placeholder:text-lg"
+                        />
                     </div>
-                    <div className="w-full flex flex-col justify-center place-items-start gap-4">
-                        <label htmlFor="pass" className="text-xl font-medium opacity-80 cursor-pointer">
-                            Enter password
-                        </label>
+
+                    <div className="w-full flex flex-col gap-4">
+                        <label htmlFor="pass" className="text-lg sm:text-xl font-medium opacity-80">Enter password</label>
                         <input
                             type="password"
                             name="password"
@@ -109,39 +109,45 @@ export const DriverSignup = () => {
                             placeholder="Password"
                             value={data.password}
                             onChange={addData}
-                            className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 placeholder:text-lg placeholder:text-black cursor-pointer" />
+                            className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 placeholder:text-base sm:placeholder:text-lg"
+                        />
                     </div>
-                    <div className="w-full flex flex-col justify-center place-items-start gap-4">
-                        <p className="text-xl font-medium opacity-80 cursor-pointer">Vehicle Information</p>
-                        <div className="w-full flex justify-center place-items-center gap-4">
+
+                    <div className="w-full flex flex-col gap-4">
+                        <p className="text-lg sm:text-xl font-medium opacity-80">Vehicle Information</p>
+                        <div className="w-full flex flex-row justify-between gap-4">
                             <input
                                 type="text"
                                 placeholder="Model"
                                 name="vehicle[model]"
                                 value={data.vehicle.model}
                                 onChange={addData}
-                                className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 placeholder:text-lg placeholder:text-black cursor-pointer" />
+                                className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 placeholder:text-base sm:placeholder:text-lg"
+                            />
                             <input
                                 type="text"
                                 placeholder="Plate"
                                 name="vehicle[plate]"
                                 value={data.vehicle.plate}
                                 onChange={addData}
-                                className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 placeholder:text-lg placeholder:text-black cursor-pointer" />
+                                className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 placeholder:text-base sm:placeholder:text-lg"
+                            />
                         </div>
-                        <div className="w-full flex justify-center place-items-center gap-4">
+                        <div className="w-full flex flex-row justify-between gap-4">
                             <input
                                 type="number"
                                 placeholder="Capacity"
                                 name="vehicle[capacity]"
                                 value={data.vehicle.capacity}
                                 onChange={addData}
-                                className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 placeholder:text-lg placeholder:text-black cursor-pointer" />
+                                className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 placeholder:text-base sm:placeholder:text-lg"
+                            />
                             <select
                                 name="vehicle[vehicleType]"
                                 value={data.vehicle.vehicleType}
                                 onChange={addData}
-                                className="bg-gray-100 font-light w-full h-[3.25rem] rounded-lg pl-8 text-lg text-black cursor-pointer">
+                                className="bg-gray-100 w-full h-[3rem] rounded-lg pl-4 text-base sm:text-lg"
+                            >
                                 <option value="" disabled>Vehicle type</option>
                                 <option value="car">Car</option>
                                 <option value="bike">Bike</option>
@@ -149,20 +155,21 @@ export const DriverSignup = () => {
                             </select>
                         </div>
                     </div>
-                    <div className="w-full flex justify-center place-items-center gap-16">
-                        <button type="submit" className="bg-black py-3 px-10 text-white rounded-lg text-lg">
+
+                    <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-16">
+                        <button type="submit" className="bg-black py-3 px-8 text-white rounded-lg text-lg w-full sm:w-auto">
                             Create
                         </button>
-                        <NavLink
+                        <Link
                             to="/driver-login"
-                            className="underline decoration-1 text-xl opacity-70 cursor-pointer hover:opacity-100 font-light
-                            text-sky-700">
-                            Existing driver...? <span>Log in</span>
-                        </NavLink>
+                            className="underline text-lg sm:text-xl opacity-70 hover:opacity-100 text-sky-700">
+                            Existing driver? <span>Log in</span>
+                        </Link>
                     </div>
                 </form>
             </div>
             <Footer />
         </>
+
     );
 }

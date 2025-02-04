@@ -328,7 +328,10 @@ export const UserHome = () => {
                                         disabled={!rideData.pickup || !rideData.drop || !rideData.date || !rideData.time}
                                         className="bg-black px-7 py-3 text-white rounded-lg mt-5 w-full"
                                         style={!rideData.pickup || !rideData.drop || !rideData.date || !rideData.time ? { cursor: 'not-allowed', opacity: 0.9 } : { cursor: 'pointer', opacity: 1 }}
-                                        onClick={getRideDetails}>Search</button>
+                                        onClick={getRideDetails}
+                                    >
+                                        Search
+                                    </button>
                                 </div>
                             </div>
                             <div

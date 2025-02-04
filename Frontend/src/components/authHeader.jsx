@@ -1,64 +1,41 @@
-import { useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { AuthString } from "./authString";
 
 export const AuthHeader = ({ clicked, setClicked, Auth }) => {
-    const ref = useRef();
-
-    useEffect(() => {
-        if (!ref.current) return;
-
-        // Apply styles dynamically
-        ref.current.style.transition = "margin-top 0.2s linear, opacity 0.5s linear";
-        ref.current.style.marginTop = clicked ? "0px" : "-510px";
-        ref.current.style.opacity = clicked ? "1" : "0";
-    }, [clicked]);
 
     return (
-        <div
-            ref={ref}
-            className={`h-screen flex flex-col justify-start items-center p-20 relative ${clicked ? "visible" : "invisible"
-                }`}
-        >
-            <span>
-                <i
-                    onClick={() => setClicked(false)}
-                    className="fa-solid fa-xmark text-3xl absolute right-7 top-6 cursor-pointer"
-                />
-            </span>
-            <div className="flex flex-row justify-start items-center flex-wrap gap-28">
-                <AuthString
-                    text={
-                        Auth === "Log in"
-                            ? "Sign in to drive & deliver"
-                            : "Sign up to drive & deliver"
-                    }
-                    link={Auth === "Log in" ? "/driver-login" : "/driver-signup"}
-                />
-                <AuthString
-                    text={
-                        Auth === "Log in"
-                            ? "Sign in to ride"
-                            : "Create a rider account"
-                    }
-                    link={Auth === "Log in" ? "/user-login" : "/user-signup"}
-                />
-                <AuthString
-                    text={
-                        Auth === "Log in"
-                            ? "Sign in to order delivery with Uber Eats"
-                            : "Order delivery with Uber Eats"
-                    }
-                    link={"/#"}
-                />
-                <AuthString
-                    text={
-                        Auth === "Log in"
-                            ? "Sign in for Uber for Business"
-                            : "Sign up for Uber for Business"
-                    }
-                    link={"/#"}
-                />
-            </div>
-        </div>
+        <AnimatePresence>
+            {clicked && (
+                <motion.div
+                    initial={{ y: "-100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "-100%" }}
+                    className="h-fit w-fit flex flex-row justify-center items-center p-16 absolute z-50 bg-white rounded-xl shadow-inner shadow-black my-2 mx-6">
+                    <span>
+                        <i
+                            onClick={() => setClicked(false)}
+                            className="fa-solid fa-xmark text-2xl opacity-60 hover:opacity-100 absolute right-7 top-6 cursor-pointer"
+                        />
+                    </span>
+                    <div className="flex flex-row justify-center items-center gap-20 w-fit max-[1060px]:flex-wrap">
+                        <AuthString
+                            text={
+                                Auth === "Log in"
+                                    ? "Sign in to drive & deliver"
+                                    : "Sign up to drive & deliver"
+                            }
+                            link={Auth === "Log in" ? "/driver-login" : "/driver-signup"}
+                        />
+                        <AuthString
+                            text={
+                                Auth === "Log in"
+                                    ? "Sign in to ride"
+                                    : "Create a rider account"
+                            }
+                            link={Auth === "Log in" ? "/user-login" : "/user-signup"}
+                        />
+                    </div>
+                </motion.div>)}
+        </AnimatePresence>
     );
 };

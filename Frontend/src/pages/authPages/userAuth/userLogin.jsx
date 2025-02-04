@@ -38,7 +38,7 @@ export const UserLogin = () => {
     return (
         <>
             <Header />
-            <div className="h-[85vh]">
+            <div className="my-10 max-[431px]:my-28">
                 <form action="#" method="post" onSubmit={(e) => submitData(e)}
                     className="mx-auto w-fit h-fit flex flex-col justify-center place-items-center gap-6 my-8">
                     <h1 className="text-3xl">What's your email?</h1>
