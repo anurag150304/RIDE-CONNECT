@@ -31,19 +31,14 @@ const createDriver = async ({
 }
 
 const findNearbyDrivers = async (ltd, lng, radius) => {
-    try {
-        return await driverModule.find({
-            location: {
-                $geoWithin: {
-                    $centerSphere: [[ltd, lng], radius / 6378.1],
-                },
+    return await driverModule.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [[ltd, lng], radius / 6378.1],
             },
-            status: "active", // Filter by active status
-        });
-    } catch (error) {
-        console.error("Error finding nearby drivers:", error);
-        throw error;
-    }
+        },
+        status: "active", // Filter by active status
+    });
 };
 
 export default {

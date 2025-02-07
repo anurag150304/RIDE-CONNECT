@@ -8,7 +8,7 @@ let io;
 const initializeSocket = (httpServer) => {
     io = new Server(httpServer, {
         cors: {
-            origin: "https://ride-connect-amber.vercel.app", // Update this with your frontend's origin for security
+            origin: "*", // Update this with your frontend's origin for security
             methods: ['GET', 'POST', 'PUT', 'DELETE']
         },
     });

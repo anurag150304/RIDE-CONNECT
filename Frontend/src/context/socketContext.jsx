@@ -12,13 +12,9 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         socket.current = io(import.meta.env.VITE_BASE_URL);
 
-        socket.current.on("connect", () => {
-            console.log("Connected to socket server:", socket.current.id);
-        });
+        socket.current.on("connect");
 
-        socket.current.on("disconnect", () => {
-            console.log("Disconnected from socket server");
-        });
+        socket.current.on("disconnect");
 
         return () => {
             socket.current.disconnect();

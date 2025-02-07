@@ -15,11 +15,8 @@ const createRide = async (req, res) => {
         res.status(201).json(newRide);
 
         const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
-        const getNearByDrivers = await driverService.findNearbyDrivers(pickupCoordinates.latitude, pickupCoordinates.longitude, 2);
+        const getNearByDrivers = await driverService.findNearbyDrivers(pickupCoordinates.latitude, pickupCoordinates.longitude, 5);
         const rideWithUser = await rideModel.findOne({ _id: newRide._id }).populate("userID");
-
-        console.log("Nearby Drivers : ", getNearByDrivers)
-        console.log("Ride with user : ", rideWithUser)
 
         newRide.otp = "";
         getNearByDrivers.forEach(driver => {
