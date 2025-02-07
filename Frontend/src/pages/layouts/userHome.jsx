@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/png/Uber_logo.png';
 import { useContext, useState, useEffect } from 'react';
 import car from '../../assets/png/car.png';
@@ -39,7 +39,7 @@ export const UserHome = () => {
         const handleRideConfirmed = (data) => setAcceptedDriver(data);
         const handleRideStarted = () => setIsRideStarted(true);
         const handleRideEnded = () => {
-            setRideData({ pickup: "", drop: "", vehicleType: "Uber Go", date: "", time: "", fare: "" });
+            setRideData({ pickup: "", drop: "", vehicleType: "Standard", date: "", time: "", fare: "" });
             setIsClicked(false);
             setIsClicked2(true);
             setIsClicked3(false);
@@ -120,8 +120,8 @@ export const UserHome = () => {
     const createNewRide = async () => {
         setIsClicked3(true);
         const vehicleTypeMap = {
-            "Uber Go": "car",
-            "Uber XL": "car",
+            "Standard": "car",
+            "Standard XL": "car",
             "Go Sedan": "car",
             "Premier": "car",
             "Moto": "motorcycle",
@@ -148,9 +148,7 @@ export const UserHome = () => {
             <header className='flex flex-row justify-between place-items-center px-2 py-2'>
                 <div className='flex flex-row justify-center place-items-center'>
                     <div className='mx-16'>
-                        <NavLink to={'/user-home'}>
-                            <img src={logo} alt="logo.png" className='w-16 cursor-pointer' />
-                        </NavLink>
+                        <Link to={'/user-home'} className='text-3xl font-medium'>Ride-Connect</Link>
                     </div>
                     <div className='ml-8'>
                         <ul className='flex flex-row justify-center place-items-center gap-8 mt-4'>
@@ -233,8 +231,8 @@ export const UserHome = () => {
                                 </div>
                                 <div className='w-full flex flex-row justify-center place-items-center my-12'>
                                     <img src={
-                                        rideData.vehicleType === "Uber Go" ? car :
-                                            rideData.vehicleType === "Uber XL" ? Uber_xl :
+                                        rideData.vehicleType === "Standard" ? car :
+                                            rideData.vehicleType === "Standard XL" ? Uber_xl :
                                                 rideData.vehicleType === "Go Sedan" ? ride :
                                                     rideData.vehicleType === "Premier" ? premium : bike}
                                         alt="vehicle.png"
@@ -352,7 +350,7 @@ export const UserHome = () => {
                                         <ul className="flex flex-col justify-start place-items-center gap-4">
                                             <OptionCard
                                                 image={car}
-                                                vehicleTyp={'Uber Go'}
+                                                vehicleTyp={'Standard'}
                                                 seats={4}
                                                 delay={'3 mins away'}
                                                 time={rideData.time}
@@ -363,7 +361,7 @@ export const UserHome = () => {
                                             />
                                             <OptionCard
                                                 image={Uber_xl}
-                                                vehicleTyp={'Uber XL'}
+                                                vehicleTyp={'Standard XL'}
                                                 seats={6}
                                                 delay={'7 mins away'}
                                                 time={rideData.time}

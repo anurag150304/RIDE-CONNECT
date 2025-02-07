@@ -19,12 +19,12 @@ function App() {
     { path: '/', element: <ProtectWrapper><Home /></ProtectWrapper> },
     { path: '/user-home', element: <UserProtectWrapper allowedRole={"user"}><UserHome /></UserProtectWrapper> },
     { path: '/driver-home', element: <DriverProtectWrapper allowedRole={"driver"}><DriverHome /></DriverProtectWrapper> },
-    { path: '/user-signup', element: <UserSignup /> },
-    { path: '/driver-signup', element: <DriverSignup /> },
-    { path: '/user-login', element: <UserLogin /> },
-    { path: '/driver-login', element: <DriverLogin /> },
-    { path: '/user-logout', element: <UserLogout /> },
-    { path: '/driver-logout', element: <DriverLogout /> },
+    { path: '/user-signup', element: <ProtectWrapper><UserSignup /></ProtectWrapper> },
+    { path: '/driver-signup', element: <ProtectWrapper><DriverSignup /></ProtectWrapper> },
+    { path: '/user-login', element: <ProtectWrapper><UserLogin /></ProtectWrapper> },
+    { path: '/driver-login', element: <ProtectWrapper><DriverLogin /></ProtectWrapper> },
+    { path: '/user-logout', element: <UserProtectWrapper allowedRole={"user"}><UserLogout /></UserProtectWrapper> },
+    { path: '/driver-logout', element: <DriverProtectWrapper allowedRole={"driver"}><DriverLogout /></DriverProtectWrapper> },
     { path: '/help', element: <Help /> },
     { path: '*', element: <PageNotFound /> }
   ]);

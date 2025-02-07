@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NavLink, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import logo from '../../assets/png/Uber_logo.png';
 import user_logo from '../../assets/png/basic.jpg';
 import { useContext, useEffect, useState } from "react";
@@ -19,7 +19,6 @@ export const DriverHome = () => {
     const navigate = useNavigate();
 
     const resetAll = async () => {
-        console.log(rideRequest._id);
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
             { rideId: rideRequest._id },
             { headers: { Authorization: `Bearer ${localStorage.getItem("driverToken")}` } });
@@ -67,7 +66,6 @@ export const DriverHome = () => {
 
     useEffect(() => {
         const handleNewRide = (data) => {
-            console.log("New ride request:", data);
             setRideRequest(data);
         };
 
@@ -97,7 +95,6 @@ export const DriverHome = () => {
             );
 
             if (response.status === 200) {
-                console.log("Ride confirmed:", response.data);
                 setRideRequest(response.data);
             }
         } catch (error) {
@@ -131,16 +128,12 @@ export const DriverHome = () => {
             console.error("Error starting ride:", error.message);
         }
     };
-    console.log(driver);
-    console.log(rideRequest);
     return (
         <>
             <header className='flex flex-row justify-between place-items-center px-2 py-2'>
                 <div className='flex flex-row justify-center place-items-center'>
                     <div className='mx-16'>
-                        <NavLink to={'/driver-home'}>
-                            <img src={logo} alt="logo.png" className='w-16 cursor-pointer' />
-                        </NavLink>
+                        <Link to={'/driver-home'} className='text-3xl font-medium'>Ride-Connect</Link>
                     </div>
                     <div className='ml-8'>
                         <ul className='flex flex-row justify-center place-items-center gap-8 mt-4'>

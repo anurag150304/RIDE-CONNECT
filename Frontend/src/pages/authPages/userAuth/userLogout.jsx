@@ -22,14 +22,14 @@ export const UserLogout = () => {
                     logout();
                     localStorage.removeItem('userToken');
                     updateUser(null);
-                    navigate('/');
+                    return navigate('/');
                 }
             } catch (error) {
-                console.log(error.message);
+                console.log(error.response.data.message);
             }
         }
         Logout();
-    }, [navigate])
+    }, []);
 
     return (<h1>User Logged Out</h1>)
 }

@@ -62,13 +62,13 @@ export const Main = () => {
                     <SuggestionCard
                         image={ride}
                         heading='Ride'
-                        text='Go anywhere with Uber. Request a ride, hop in, and go.'
+                        text='Go anywhere. Request a ride, hop in, and go.'
                         btn_text='Details'
                     />
                     <SuggestionCard
                         image={carRentals}
                         heading='Rental Cars'
-                        text='Your perfect rental car is a few click away. Learn more about Uber Rent.'
+                        text='Your perfect rental car is a few click away. Learn more about Rent.'
                         btn_text='Details'
                     />
                     <SuggestionCard

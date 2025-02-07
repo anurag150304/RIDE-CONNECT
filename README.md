@@ -53,9 +53,9 @@ Ensure you have the following installed on your machine:
 
 2. **Install Dependencies**
    ```bash
-   npm install
-   cd Backend && npm install
-   cd Frontend && npm install
+   pnpm install
+   cd Backend && pnpm install
+   cd Frontend && pnpm install
    ```
 
 3. **Environment Variables**
@@ -69,14 +69,14 @@ Ensure you have the following installed on your machine:
 4. **Run the Application**
    ```bash
    # Start the backend server
-   cd Backend && npm nodemon server.js
+   cd Backend && pnpx nodemon server.js
 
    # Start the frontend server
-   cd Frontend && npm run dev
+   cd Frontend && pnpm run dev
    ```
 
 5. **Access the Application**
-   Open your browser and go to `http://localhost:3000`.
+   Open your browser and go to `https://ride-connect-amber.vercel.app`.
 
 ## Folder Structure
 
