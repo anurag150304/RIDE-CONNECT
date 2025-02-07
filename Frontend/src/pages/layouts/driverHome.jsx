@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import logo from '../../assets/png/Uber_logo.png';
 import user_logo from '../../assets/png/basic.jpg';
 import { useContext, useEffect, useState } from "react";
@@ -16,10 +16,6 @@ export const DriverHome = () => {
     const [isRideStarted, setIsRideStarted] = useState(false);
     const { driver } = useContext(driverContextData);
     const { sendMessage, receiveMessage, removeMessage } = useContext(SocketContext);
-    const navigate = useNavigate();
-
-    console.log("Driver Data : ", driver);
-    console.log("Ride Request : ", rideRequest);
 
     const resetAll = async () => {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
@@ -31,7 +27,6 @@ export const DriverHome = () => {
             setIsClicked(false);
             setIsClicked2(true);
             setIsRideStarted(false);
-            navigate("/driver-home");
         }
     }
 
@@ -124,7 +119,6 @@ export const DriverHome = () => {
             );
 
             if (response.status === 200) {
-                console.log("Ride started successfully.");
                 setIsRideStarted(true);
             }
         } catch (error) {
@@ -136,7 +130,9 @@ export const DriverHome = () => {
             <header className='flex flex-row justify-between place-items-center px-2 py-2'>
                 <div className='flex flex-row justify-center place-items-center'>
                     <div className='mx-16'>
-                        <Link to={'/driver-home'} className='text-3xl font-medium'>Ride-Connect</Link>
+                        <Link to={'/driver-home'}>
+                            <img src={logo} alt="logo.png" className='w-16 cursor-pointer' />
+                        </Link>
                     </div>
                     <div className='ml-8'>
                         <ul className='flex flex-row justify-center place-items-center gap-8 mt-4'>

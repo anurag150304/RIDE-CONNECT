@@ -29,9 +29,6 @@ export const UserHome = () => {
     const { sendMessage, receiveMessage, removeMessage } = useContext(SocketContext);
     const navigate = useNavigate();
 
-    console.log("User Data : ", user)
-    console.log("Ride Data : ", rideData)
-
     // Join user to the socket room
     useEffect(() => {
         sendMessage("join", { userId: user._id, userType: "user" });
@@ -49,7 +46,6 @@ export const UserHome = () => {
             setAcceptedDriver(null);
             setFares({ car: 0, motorcycle: 0, auto: 0 });
             setIsSuggestionBoxVisible(false);
-            navigate("/user-home");
         }
 
         receiveMessage("ride-confirmed", handleRideConfirmed);
@@ -151,7 +147,9 @@ export const UserHome = () => {
             <header className='flex flex-row justify-between place-items-center px-2 py-2'>
                 <div className='flex flex-row justify-center place-items-center'>
                     <div className='mx-16'>
-                        <Link to={'/user-home'} className='text-3xl font-medium'>Ride-Connect</Link>
+                        <Link to={'/user-home'}>
+                            <img src={logo} alt="logo.png" className='w-16 cursor-pointer' />
+                        </Link>
                     </div>
                     <div className='ml-8'>
                         <ul className='flex flex-row justify-center place-items-center gap-8 mt-4'>
