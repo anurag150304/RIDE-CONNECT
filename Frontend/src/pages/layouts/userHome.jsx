@@ -147,9 +147,7 @@ export const UserHome = () => {
             <header className='flex flex-row justify-between place-items-center px-2 py-2'>
                 <div className='flex flex-row justify-center place-items-center'>
                     <div className='mx-16'>
-                        <Link to={'/user-home'}>
-                            <img src={logo} alt="logo.png" className='w-16 cursor-pointer' />
-                        </Link>
+                        <Link to={'/user-home'} className='text-3xl font-medium'>Ride-Connect</Link>
                     </div>
                     <div className='ml-8'>
                         <ul className='flex flex-row justify-center place-items-center gap-8 mt-4'>
