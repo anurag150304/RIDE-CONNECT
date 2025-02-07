@@ -29,6 +29,9 @@ export const UserHome = () => {
     const { sendMessage, receiveMessage, removeMessage } = useContext(SocketContext);
     const navigate = useNavigate();
 
+    console.log("User Data : ", user)
+    console.log("Ride Data : ", rideData)
+
     // Join user to the socket room
     useEffect(() => {
         sendMessage("join", { userId: user._id, userType: "user" });
@@ -89,7 +92,7 @@ export const UserHome = () => {
                 setSuggestions((prev) => ({ ...prev, [fieldName]: response.data.suggestions }));
             }
         } catch (error) {
-            console.error("Error fetching suggestions:", error.message);
+            console.error("Error fetching suggestions:", error.response.data.message);
         }
     };
 
@@ -112,7 +115,7 @@ export const UserHome = () => {
 
             if (response.status === 200) setFares(response.data);
         } catch (error) {
-            console.error("Error fetching ride details:", error.message);
+            console.error("Error fetching ride details:", error.response.data.message);
         }
     };
 
@@ -140,7 +143,7 @@ export const UserHome = () => {
                 { headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` } }
             );
         } catch (error) {
-            console.error("Error creating ride:", error.message);
+            console.error("Error creating ride:", error.response.data.message);
         }
     };
     return (

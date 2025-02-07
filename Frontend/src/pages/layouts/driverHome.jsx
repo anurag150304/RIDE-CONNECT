@@ -18,6 +18,9 @@ export const DriverHome = () => {
     const { sendMessage, receiveMessage, removeMessage } = useContext(SocketContext);
     const navigate = useNavigate();
 
+    console.log("Driver Data : ", driver);
+    console.log("Ride Request : ", rideRequest);
+
     const resetAll = async () => {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
             { rideId: rideRequest._id },
@@ -49,7 +52,7 @@ export const DriverHome = () => {
                     location: { ltd: latitude, lng: longitude },
                 });
             },
-            (error) => console.error("Error fetching location:", error)
+            (error) => console.error("Error fetching location:", error.response.data.message)
         );
     };
 
@@ -98,7 +101,7 @@ export const DriverHome = () => {
                 setRideRequest(response.data);
             }
         } catch (error) {
-            console.error("Error confirming ride:", error.message);
+            console.error("Error confirming ride:", error.response.data.message);
         }
     };
 
@@ -125,7 +128,7 @@ export const DriverHome = () => {
                 setIsRideStarted(true);
             }
         } catch (error) {
-            console.error("Error starting ride:", error.message);
+            console.error("Error starting ride:", error.response.data.message);
         }
     };
     return (
