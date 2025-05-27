@@ -27,7 +27,6 @@ export const UserHome = () => {
     const { rideData, setRideData } = useContext(rideContextData);
     const { user } = useContext(userContextData);
     const { sendMessage, receiveMessage, removeMessage } = useContext(SocketContext);
-    const navigate = useNavigate();
 
     // Join user to the socket room
     useEffect(() => {
@@ -72,11 +71,11 @@ export const UserHome = () => {
         const fieldName = e.target.name;
 
         if (!input) {
-            setSuggestions((prev) => ({ ...prev, [fieldName]: [] }));
-            setRideData((prev) => ({ ...prev, [fieldName]: "" }));
+            setSuggestions({ ...suggestions, [fieldName]: [] });
+            setRideData({ ...rideData, [fieldName]: "" });
             return;
         }
-        setRideData((prev) => ({ ...prev, [fieldName]: input }));
+        setRideData({ ...rideData, [fieldName]: input });
 
         try {
             const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
@@ -85,7 +84,7 @@ export const UserHome = () => {
             });
 
             if (response.status === 200) {
-                setSuggestions((prev) => ({ ...prev, [fieldName]: response.data.suggestions }));
+                setSuggestions({ ...rideData, [fieldName]: response.data.suggestions });
             }
         } catch (error) {
             console.error("Error fetching suggestions:", error.response.data.message);
@@ -95,8 +94,8 @@ export const UserHome = () => {
     // Handle suggestion selection
     const handleSuggestionClick = (location, type) => {
         setIsSuggestionBoxVisible(false);
-        setSuggestions((prev) => ({ ...prev, [type]: [] }));
-        setRideData((prev) => ({ ...prev, [type]: location }));
+        setSuggestions({ ...suggestions, [type]: [] });
+        setRideData({ ...rideData, [type]: location });
     };
 
     // Fetch ride fares
