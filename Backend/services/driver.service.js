@@ -1,32 +1,15 @@
 import driverModule from "../modules/driver.js";
 
-const createDriver = async ({
-    firstname,
-    lastname,
-    email,
-    password,
-    model,
-    plate,
-    capacity,
-    vehicleType
-}) => {
+const createDriver = async ({ firstname, lastname, email, password, model, plate, capacity, vehicleType }) => {
     if (!firstname || !lastname || !email || !password || !model || !plate || !capacity || !vehicleType) {
         throw new Error('All fields are required');
     }
 
     return await driverModule.create({
-        fullname: {
-            firstname,
-            lastname
-        },
+        fullname: { firstname, lastname },
         email,
         password,
-        vehicle: {
-            model,
-            plate,
-            capacity,
-            vehicleType
-        }
+        vehicle: { model, plate, capacity, vehicleType }
     });
 }
 
@@ -37,7 +20,7 @@ const findNearbyDrivers = async (ltd, lng, radius) => {
                 $centerSphere: [[ltd, lng], radius / 6378.1],
             },
         },
-        status: "active", // Filter by active status
+        status: "active",
     });
 };
 

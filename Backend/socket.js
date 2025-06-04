@@ -51,6 +51,8 @@ const initializeSocket = (httpServer) => {
 
 // Function to send a message to a specific user/driver using their ID
 const sendMessageToSocketID = (socketID, messageObj) => {
+    console.log(socketID);
+    console.log(messageObj);
     if (io) {
         io.to(socketID).emit(messageObj.event, messageObj.data);
     } else {

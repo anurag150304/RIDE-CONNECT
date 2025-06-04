@@ -18,6 +18,7 @@ import { LiveTracking } from '../../components/LiveTracking';
 export const UserHome = () => {
     const [suggestions, setSuggestions] = useState({ pickup: [], drop: [] });
     const [isSuggestionBoxVisible, setIsSuggestionBoxVisible] = useState(false);
+    const [activeBoxType, setActiveBoxType] = useState(null); // "pickup" or "drop"
     const [acceptedDriver, setAcceptedDriver] = useState(null);
     const [fares, setFares] = useState({ car: 0, motorcycle: 0, auto: 0 });
     const [isClicked, setIsClicked] = useState(false);
@@ -56,7 +57,7 @@ export const UserHome = () => {
             removeMessage("ride-started", handleRideStarted);
             receiveMessage("ride-ended", handleRideEnded);
         };
-    }, [receiveMessage, removeMessage]);
+    }, [receiveMessage, removeMessage, setRideData]);
 
     // Update suggestion visibility
     useEffect(() => {
@@ -66,7 +67,9 @@ export const UserHome = () => {
     }, [suggestions]);
 
     // Fetch location suggestions
-    const getSuggestions = async (e) => {
+    const getSuggestions = async (e, type) => {
+        setActiveBoxType(type);
+        setIsSuggestionBoxVisible(true);
         const input = e.target.value.trim();
         const fieldName = e.target.name;
 
@@ -96,6 +99,7 @@ export const UserHome = () => {
         setIsSuggestionBoxVisible(false);
         setSuggestions({ ...suggestions, [type]: [] });
         setRideData({ ...rideData, [type]: location });
+        setActiveBoxType(null);
     };
 
     // Fetch ride fares
@@ -276,13 +280,15 @@ export const UserHome = () => {
                                         type="text"
                                         name="pickup"
                                         value={rideData.pickup}
-                                        onChange={(e) => getSuggestions(e)}
+                                        onChange={(e) => getSuggestions(e, "pickup")}
                                         placeholder="Pickup location"
                                         autoComplete='off'
                                         list="pickup-options"
                                         className="bg-gray-100 font-light w-[100%] h-[3rem] rounded-lg px-12 placeholder:text-base placeholder:text-black cursor-text"
                                     />
-                                    {(isSuggestionBoxVisible && suggestions.pickup.length > 0) && <SuggestionBox type={"pickup"} DATA={suggestions} setSuggestionsAndClick={handleSuggestionClick} />}
+                                    {isSuggestionBoxVisible && activeBoxType === "pickup" && suggestions.pickup.length > 0 && (
+                                        <SuggestionBox type="pickup" DATA={suggestions} setSuggestionsAndClick={handleSuggestionClick} />
+                                    )}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="1.75em" height="1.75em" viewBox="0 0 24 24" fill="none" aria-label="Pickup location"
                                         className="pe-location-fetch css-bOZeEP absolute right-3 top-3" role="button" tabIndex="0">
                                         <path d="M10.5 13.5.5 11 21 3l-8 20.5-2.5-10Z" fill="currentColor" />
@@ -300,10 +306,12 @@ export const UserHome = () => {
                                         value={rideData.drop}
                                         placeholder="Dropoff location"
                                         autoComplete='off'
-                                        onChange={(e) => getSuggestions(e)}
+                                        onChange={(e) => getSuggestions(e, "drop")}
                                         className="bg-gray-100 font-light w-[100%] h-[3rem] rounded-lg px-12 placeholder:text-base placeholder:text-black cursor-text"
                                     />
-                                    {(isSuggestionBoxVisible && suggestions.drop.length > 0) && <SuggestionBox type={"drop"} DATA={suggestions} setSuggestionsAndClick={handleSuggestionClick} />}
+                                    {isSuggestionBoxVisible && activeBoxType === "drop" && suggestions.drop.length > 0 && (
+                                        <SuggestionBox type="drop" DATA={suggestions} setSuggestionsAndClick={handleSuggestionClick} />
+                                    )}
                                     <div className="flex flex-row justify-between place-items-center w-[100%] gap-4 mt-5">
                                         <input
                                             type="date"
